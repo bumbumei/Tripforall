@@ -3,16 +3,19 @@ import { CITY_CONFIG } from "./cities";
 import { MOCK_SPOTS, MOCK_BARRIER_FREE } from "./mock-data";
 
 const BASE = "https://apis.data.go.kr/B551011";
-// 무장애 여행 정보 서비스
-const BF_ENDPOINT = `${BASE}/KorWithService2`;
-// 국문 관광정보 서비스 (보강용)
-const KOR_ENDPOINT = `${BASE}/KorService2`;
+
+// TourAPI는 v1(3.0대)과 v2(4.0대)가 공존. 데이터셋 신청 시점에 따라 한쪽만 동작.
+// 무장애 여행 정보: KorWithService(1|2) · 국문 관광정보: KorService(1|2)
+const BF_VARIANTS = [
+  { service: "KorWithService2", suffix: "2" },
+  { service: "KorWithService1", suffix: "1" }
+];
 
 function useMock(): boolean {
   return process.env.USE_MOCK_TOUR_API === "true" || !process.env.TOUR_API_KEY;
 }
 
-function buildUrl(endpoint: string, op: string, params: Record<string, string>): string {
+function buildUrl(service: string, op: string, params: Record<string, string>): string {
   const key = process.env.TOUR_API_KEY ?? "";
   const qs = new URLSearchParams({
     serviceKey: decodeURIComponent(key),
@@ -21,13 +24,40 @@ function buildUrl(endpoint: string, op: string, params: Record<string, string>):
     _type: "json",
     ...params
   });
-  return `${endpoint}/${op}?${qs.toString()}`;
+  return `${BASE}/${service}/${op}?${qs.toString()}`;
 }
 
-async function fetchJson<T>(url: string): Promise<T> {
-  const res = await fetch(url, { next: { revalidate: 3600 } });
-  if (!res.ok) throw new Error(`TourAPI ${res.status}`);
-  return res.json() as Promise<T>;
+interface TourApiOk<T> {
+  response: { body: { items: { item: T | T[] } | string }; header?: { resultCode?: string; resultMsg?: string } };
+}
+
+async function tryVariants<T>(
+  opBase: string,
+  params: Record<string, string>
+): Promise<{ items: any[]; service: string; op: string } | null> {
+  for (const { service, suffix } of BF_VARIANTS) {
+    const op = `${opBase}${suffix}`;
+    const url = buildUrl(service, op, params);
+    try {
+      const res = await fetch(url, { next: { revalidate: 3600 } });
+      if (!res.ok) continue;
+      const text = await res.text();
+      // data.go.kr returns XML error wrapped in HTML when key invalid
+      if (!text.trim().startsWith("{")) continue;
+      const json = JSON.parse(text) as TourApiOk<any>;
+      const code = json?.response?.header?.resultCode;
+      if (code && code !== "0000") continue;
+      const raw = json?.response?.body?.items;
+      if (typeof raw === "string" || !raw) return { items: [], service, op };
+      const item = (raw as any).item;
+      if (!item) return { items: [], service, op };
+      const items = Array.isArray(item) ? item : [item];
+      return { items, service, op };
+    } catch {
+      continue;
+    }
+  }
+  return null;
 }
 
 /**
@@ -38,35 +68,60 @@ export async function listBarrierFreeSpots(city: CityCode, limit = 12): Promise<
   if (useMock()) return MOCK_SPOTS[city] ?? [];
 
   const { areaCode } = CITY_CONFIG[city];
-  const url = buildUrl(BF_ENDPOINT, "areaBasedList2", {
+  const result = await tryVariants("areaBasedList", {
     numOfRows: String(limit),
     pageNo: "1",
     areaCode
   });
-  try {
-    const json = await fetchJson<any>(url);
-    const items = json?.response?.body?.items?.item ?? [];
-    return (Array.isArray(items) ? items : [items]).map(mapItemToSpot);
-  } catch {
-    return MOCK_SPOTS[city] ?? [];
-  }
+  if (!result || result.items.length === 0) return MOCK_SPOTS[city] ?? [];
+  return result.items.map(mapItemToSpot);
 }
 
 export async function getBarrierFreeDetail(contentId: string): Promise<BarrierFreeInfo> {
   if (useMock()) return MOCK_BARRIER_FREE[contentId] ?? { contentId };
 
-  const url = buildUrl(BF_ENDPOINT, "detailWithTour2", {
-    contentId
-  });
-  try {
-    const json = await fetchJson<any>(url);
-    const item = json?.response?.body?.items?.item;
-    const row = Array.isArray(item) ? item[0] : item;
-    if (!row) return { contentId };
-    return mapBarrierFreeItem(contentId, row);
-  } catch {
+  const result = await tryVariants("detailWithTour", { contentId });
+  if (!result || result.items.length === 0) {
     return MOCK_BARRIER_FREE[contentId] ?? { contentId };
   }
+  return mapBarrierFreeItem(contentId, result.items[0]);
+}
+
+// 진단용: 어느 variant가 실제로 통하는지 한 번에 확인.
+export async function diagnoseTourApi(): Promise<{
+  hasKey: boolean;
+  mock: boolean;
+  attempts: Array<{ service: string; op: string; url: string; status: number; bodyHead: string }>;
+}> {
+  const hasKey = !!process.env.TOUR_API_KEY;
+  const mock = useMock();
+  const attempts: any[] = [];
+  if (!hasKey || mock) return { hasKey, mock, attempts };
+
+  for (const { service, suffix } of BF_VARIANTS) {
+    const op = `areaBasedList${suffix}`;
+    const url = buildUrl(service, op, { numOfRows: "1", pageNo: "1", areaCode: "1" });
+    try {
+      const res = await fetch(url);
+      const text = await res.text();
+      attempts.push({
+        service,
+        op,
+        url: url.replace(/serviceKey=[^&]+/, "serviceKey=***"),
+        status: res.status,
+        bodyHead: text.slice(0, 240)
+      });
+    } catch (e: any) {
+      attempts.push({
+        service,
+        op,
+        url: url.replace(/serviceKey=[^&]+/, "serviceKey=***"),
+        status: 0,
+        bodyHead: String(e.message ?? e)
+      });
+    }
+  }
+  return { hasKey, mock, attempts };
 }
 
 function mapItemToSpot(it: any): TourSpot {

@@ -32,7 +32,16 @@ cp .env.example .env.local
 # TOUR_API_KEY, ANTHROPIC_API_KEY 입력 (없으면 mock 모드로 동작)
 pnpm install
 pnpm dev
+# → http://localhost:3000
 ```
+
+키 연결 확인:
+```bash
+curl http://localhost:3000/api/diag
+```
+`tourApi.attempts[].status === 200`이면 실 API 정상. 모두 실패하면 mock 데이터로
+자동 폴백되므로 화면은 정상 렌더됩니다. (TourAPI 4.0과 3.0이 공존하므로 코드가
+`KorWithService2 → KorWithService1` 순으로 시도)
 
 ## 폴더 구조
 
