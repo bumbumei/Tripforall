@@ -1,0 +1,12 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      { protocol: "http", hostname: "tong.visitkorea.or.kr" },
+      { protocol: "https", hostname: "tong.visitkorea.or.kr" }
+    ]
+  }
+};
+
+module.exports = nextConfig;

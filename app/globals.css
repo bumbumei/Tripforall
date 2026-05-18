@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background: #fffaf3;
+  color: #0f1620;
+}
+
+body {
+  font-feature-settings: "ss01", "ss02";
+}
+
+.font-display {
+  letter-spacing: -0.02em;
+}
