@@ -42,6 +42,8 @@ LLM provider 우선순위: `OPENAI_API_KEY` > `ANTHROPIC_API_KEY` > 없음(fallb
 키 연결 확인:
 ```bash
 curl http://localhost:3000/api/diag
+# 또는 자동 검증:
+pnpm verify
 ```
 `tourApi.attempts[].status === 200`이면 실 API 정상. 모두 실패하면 mock 데이터로
 자동 폴백되므로 화면은 정상 렌더됩니다. (TourAPI 4.0과 3.0이 공존하므로 코드가
