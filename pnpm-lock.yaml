@@ -20,6 +20,9 @@ importers:
       next:
         specifier: 14.2.18
         version: 14.2.18(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      openai:
+        specifier: ^6.38.0
+        version: 6.38.0(zod@3.25.76)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -506,6 +509,18 @@ packages:
   object-hash@3.0.0:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
+
+  openai@6.38.0:
+    resolution: {integrity: sha512-AoMplt2UalrpgUDMh3L09QWjNRlgJPipclQvA6sYAaeF6nHNBMgmikAZGmcYLn8on4d9sQY9Q8bOLfrBS7Lc8g==}
+    hasBin: true
+    peerDependencies:
+      ws: ^8.18.0
+      zod: ^3.25 || ^4.0
+    peerDependenciesMeta:
+      ws:
+        optional: true
+      zod:
+        optional: true
 
   path-parse@1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
@@ -1108,6 +1123,10 @@ snapshots:
   object-assign@4.1.1: {}
 
   object-hash@3.0.0: {}
+
+  openai@6.38.0(zod@3.25.76):
+    optionalDependencies:
+      zod: 3.25.76
 
   path-parse@1.0.7: {}
 

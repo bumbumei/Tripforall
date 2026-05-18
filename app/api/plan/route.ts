@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import type { TripPlanResponse, TripRequest } from "@/types";
 import { buildCourse } from "@/lib/course-builder";
-import { callClaudeJson, hasClaudeKey } from "@/lib/claude";
+import { callLlmJson, hasLlmKey } from "@/lib/llm";
 import { buildPacePrompt, validatePaceResult } from "@/lib/prompts/pace";
 import { buildWellnessPrompt, validateWellnessScore } from "@/lib/prompts/wellness";
 import { buildMultiGenPrompt, validateMultiGenResult } from "@/lib/prompts/multigen";
@@ -72,10 +72,10 @@ export async function POST(req: Request) {
 }
 
 async function runPace(input: Parameters<typeof buildPacePrompt>[0]) {
-  if (!hasClaudeKey()) return fallbackPace(input.course, input.companions);
+  if (!hasLlmKey()) return fallbackPace(input.course, input.companions);
   try {
     const { system, user } = buildPacePrompt(input);
-    const json = await callClaudeJson<any>({ system, user, maxTokens: 1800 });
+    const json = await callLlmJson<any>({ system, user, maxTokens: 1800 });
     return validatePaceResult(json);
   } catch {
     return fallbackPace(input.course, input.companions);
@@ -83,10 +83,10 @@ async function runPace(input: Parameters<typeof buildPacePrompt>[0]) {
 }
 
 async function runWellness(input: Parameters<typeof buildWellnessPrompt>[0]) {
-  if (!hasClaudeKey()) return fallbackWellness(input.course);
+  if (!hasLlmKey()) return fallbackWellness(input.course);
   try {
     const { system, user } = buildWellnessPrompt(input);
-    const json = await callClaudeJson<any>({ system, user, maxTokens: 800 });
+    const json = await callLlmJson<any>({ system, user, maxTokens: 800 });
     return validateWellnessScore(json);
   } catch {
     return fallbackWellness(input.course);
@@ -94,10 +94,10 @@ async function runWellness(input: Parameters<typeof buildWellnessPrompt>[0]) {
 }
 
 async function runMultiGen(input: Parameters<typeof buildMultiGenPrompt>[0]) {
-  if (!hasClaudeKey()) return fallbackMultiGen(input.course, input.companions, input.city);
+  if (!hasLlmKey()) return fallbackMultiGen(input.course, input.companions, input.city);
   try {
     const { system, user } = buildMultiGenPrompt(input);
-    const json = await callClaudeJson<any>({ system, user, maxTokens: 2200 });
+    const json = await callLlmJson<any>({ system, user, maxTokens: 2200 });
     return validateMultiGenResult(json);
   } catch {
     return fallbackMultiGen(input.course, input.companions, input.city);

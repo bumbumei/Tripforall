@@ -1,18 +1,21 @@
 import { NextResponse } from "next/server";
 import { diagnoseTourApi } from "@/lib/tour-api";
-import { hasClaudeKey } from "@/lib/claude";
+import { activeProvider } from "@/lib/llm";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   const tour = await diagnoseTourApi();
+  const llm = activeProvider();
   return NextResponse.json({
     timestamp: new Date().toISOString(),
     env: {
       USE_MOCK_TOUR_API: process.env.USE_MOCK_TOUR_API ?? "(unset)",
       TOUR_API_KEY: process.env.TOUR_API_KEY ? "set" : "not set",
-      ANTHROPIC_API_KEY: hasClaudeKey() ? "set" : "not set"
+      OPENAI_API_KEY: process.env.OPENAI_API_KEY ? "set" : "not set",
+      ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY ? "set" : "not set"
     },
+    llm: llm ?? { provider: null, model: null, hint: "no LLM key — using deterministic fallback" },
     tourApi: tour,
     hint:
       tour.attempts.length === 0

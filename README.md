@@ -21,7 +21,7 @@
 
 - Next.js 14 (App Router) + TypeScript + Tailwind
 - 한국관광공사 TourAPI 4.0 (무장애 여행정보·국문 관광정보)
-- Anthropic Claude (`claude-sonnet-4-6`)
+- LLM provider-agnostic — OpenAI `gpt-4o` (기본) 또는 Anthropic `claude-sonnet-4-6`
 - mock-data fallback — TourAPI 키 없이도 데모 동작
 - LLM 키 없이도 결정론적 fallback 결과 생성
 
@@ -29,11 +29,15 @@
 
 ```bash
 cp .env.example .env.local
-# TOUR_API_KEY, ANTHROPIC_API_KEY 입력 (없으면 mock 모드로 동작)
+# 필수: TOUR_API_KEY (data.go.kr 발급)
+# 권장: OPENAI_API_KEY (또는 ANTHROPIC_API_KEY) — 없으면 결정론적 fallback 결과
 pnpm install
 pnpm dev
 # → http://localhost:3000
 ```
+
+LLM provider 우선순위: `OPENAI_API_KEY` > `ANTHROPIC_API_KEY` > 없음(fallback).
+기본 모델은 `OPENAI_MODEL=gpt-4o` / `ANTHROPIC_MODEL=claude-sonnet-4-6`.
 
 키 연결 확인:
 ```bash
@@ -52,10 +56,10 @@ app/
   result/page.tsx   # 3대 기능 결과
   api/plan/route.ts # 메인 API — TourAPI + LLM 통합
 lib/
-  tour-api.ts       # TourAPI 4.0 클라이언트
+  tour-api.ts       # TourAPI 4.0 클라이언트 (v2 → v1 자동 폴백)
   cities.ts         # 서울·제주·부산 areaCode
   course-builder.ts # nearest-neighbor 코스 생성
-  claude.ts         # LLM 래퍼 + JSON 파서
+  llm.ts            # LLM 래퍼 (OpenAI/Anthropic provider-agnostic)
   fallback.ts       # LLM 없을 때 결정론적 결과
   mock-data.ts      # TourAPI 시드 데이터
   prompts/
