@@ -8,3 +8,9 @@ out/
 next-env.d.ts
 .vercel
 tsconfig.tsbuildinfo
+
+# 원본 reference 데이터 (CSV 16MB + 카탈로그 133MB) — 빌드 결과(lib/data/*.json)만 푸시
+ref/
+
+# Claude Code 메타데이터
+.claude/

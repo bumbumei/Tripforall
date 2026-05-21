@@ -12,6 +12,8 @@ export async function GET() {
     env: {
       USE_MOCK_TOUR_API: process.env.USE_MOCK_TOUR_API ?? "(unset)",
       TOUR_API_KEY: process.env.TOUR_API_KEY ? "set" : "not set",
+      KCISA_API_KEY: process.env.KCISA_API_KEY ? "set" : "not set",
+      OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY ? "set" : "not set",
       OPENAI_API_KEY: process.env.OPENAI_API_KEY ? "set" : "not set",
       ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY ? "set" : "not set"
     },

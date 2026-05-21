@@ -24,14 +24,27 @@ export interface CompanionProfile {
   staminaPercent: number; // 시작 체력 (0-100)
 }
 
-export type CityCode = "seoul" | "jeju" | "busan";
+export type CityCode = "seoul" | "jeju" | "busan" | "gyeonggi";
+
+export type TravelTheme = "history" | "nature" | "food" | "art" | "family" | "festival" | "local" | "indoor" | "wellness" | "pet";
+
+export type CuisinePref = "korean" | "chinese" | "japanese" | "western" | "cafe" | "any";
 
 export interface TripRequest {
   city: CityCode;
+  sigungu?: string; // TourAPI sigunguCode (선택 — 없으면 도시 전체)
   durationHours: number;
   companions: CompanionProfile[];
-  theme?: string; // "역사·문화", "자연", "맛집" 등
-  date?: string;
+  theme?: TravelTheme;
+  cuisine?: CuisinePref; // 선호 음식
+  date?: string; // YYYY-MM-DD
+  startTime?: string; // HH:MM (24시간)
+  // 사용자가 추천 풀에서 선택한 contentId 목록. 있으면 nearest-neighbor 대신
+  // 이 ID들로 코스를 구성 (순서는 첫 ID가 anchor, 나머지는 거리 기반 재정렬).
+  forceSpotIds?: string[];
+  // "다른 조합 보기" — 같은 조건에서 anchor를 풀 상위 N개 중 다른 것으로 선택.
+  // 없으면 항상 풀 1순위 (deterministic).
+  shuffleSeed?: number;
 }
 
 // TourAPI 응답
@@ -137,9 +150,75 @@ export interface MultiGenResult {
   narrative: string; // 리허설 텍스트
 }
 
+// 외부 데이터로 보강된 코스 정보 (TourAPI 외 보조 데이터셋)
+export interface NearbyToiletInfo {
+  name: string;
+  address: string;
+  distanceM: number;
+  walkMin: number;
+  accessibleCount: number; // 장애인용 변기 총 개수
+  openHours: string;
+  hasEmergencyBell: boolean;
+}
+
+export interface WeatherInfo {
+  condition: "clear" | "cloudy" | "rain" | "snow" | "hot" | "cold";
+  tempC: number;
+  feelsLikeC?: number;
+  precipProbPct: number;
+  windKph?: number;
+  summary: string;
+  preferIndoor: boolean;
+}
+
+export interface NearbyEmergencyRoom {
+  name: string;
+  addr: string;
+  tel?: string;
+  distanceKm: number;
+  divName?: string; // 종합병원/병원 등
+  hours?: string; // "08:30-17:00"
+}
+
 export interface TripPlanResponse {
   request: TripRequest;
-  spots: TourSpot[];
+  spots: TourSpot[]; // 최종 동선 (코스)
+  recommendedSpots?: TourSpot[]; // 테마 점수 상위 풀 (spots는 이 안에서 nearest-neighbor로 선정)
+  theme?: TravelTheme;
+  themeLabel?: string;
+  sigunguLabel?: string; // "종로구" 등 (시·군·구 선택 시)
+  // 시·군·구 풀이 너무 작아 시·도 전체로 자동 확장됐을 때
+  expansion?: { expandedToCity: boolean; reason: string };
+  // contentId → 그 스팟 반경 500m 내 장애인 화장실 (행정안전부 공중화장실 표준데이터셋)
+  nearbyToiletsByContent?: Record<string, NearbyToiletInfo[]>;
+  // 코스 중심 좌표 기준 가까운 응급의료기관 (국립중앙의료원 전국 응급의료기관 정보 API)
+  emergencyRooms?: NearbyEmergencyRoom[];
+  // 휴무/운영시간 외라 코스에서 제외된 스팟 + 변경 안내
+  skippedSpots?: Array<{ title: string; reason: string; suggestion: string }>;
+  // contentId → 홈페이지·소개글·전화 (TourAPI detailCommon2)
+  spotInfoByContent?: Record<
+    string,
+    { homepage?: string; homepageText?: string; overview?: string; tel?: string }
+  >;
+  // contentId → 추가 이미지 URL 목록 (TourAPI detailImage2). firstImage 외 갤러리.
+  imagesByContent?: Record<string, string[]>;
+  // contentId → 반복정보 (TourAPI detailInfo2 — 입장료·주차요금·화장실 등 항목별 안내)
+  detailInfoByContent?: Record<string, Array<{ name: string; text: string }>>;
+  // contentId → 출발 날짜 관광지 집중률 (한국관광공사 빅데이터, 시·군·구 선택 시만)
+  crowdByContent?: Record<string, { ratePct: number; level: "low" | "medium" | "high"; date: string }>;
+  // contentId → 인증 정보 (행정안전부 모범음식점·관광식당 + 한국관광공사 반려동물 동반).
+  certificationsByContent?: Record<
+    string,
+    {
+      excellent?: { designatedYmd: string; foodKind: string };
+      tourist?: { addr: string };
+      petFriendly?: boolean;
+    }
+  >;
+  // 인접 스팟 사이 직선 거리(km). 길이 = spots.length - 1.
+  legDistancesKm?: number[];
+  // 코스 중심 좌표 + 출발 시각 날씨 (Open-Meteo). 스팟 추천 가중에도 사용됨.
+  weather?: WeatherInfo;
   pace: PaceResult;
   wellness: WellnessScore;
   multiGen: MultiGenResult;

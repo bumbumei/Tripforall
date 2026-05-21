@@ -89,13 +89,15 @@ async function main() {
   console.log(plan.multiGen.narrative.slice(0, 300));
   console.log();
 
-  // Heuristic: fallback always starts with "{city}의 아침."
-  const looksLikeFallback = plan.multiGen.narrative.startsWith("서울의 아침.");
+  // Heuristic: fallback narrative는 마지막에 안정적인 시그니처 문장을 끼움.
+  // (lib/fallback.ts의 FALLBACK_SIGNATURE 참고)
+  const FALLBACK_SIGNATURE = "가장 천천히 걷는 사람의 속도가 오늘 우리 모두의 속도였습니다.";
+  const looksLikeFallback = plan.multiGen.narrative.includes(FALLBACK_SIGNATURE);
   if (looksLikeFallback) {
-    warn("narrative가 fallback 템플릿 형태. LLM 호출 실패했을 가능성.");
+    warn("narrative가 fallback 시그니처 포함. LLM 호출 실패 또는 키 미설정 가능.");
     info("  → /api/diag의 llm.provider가 표시되는지, OPENAI_API_KEY가 유효한지 확인.");
   } else {
-    ok("narrative가 LLM 생성으로 보임 (fallback 템플릿이 아님).");
+    ok("narrative가 LLM 생성으로 보임 (fallback 시그니처 없음).");
   }
 
   const reasonsLLM = plan.wellness.reasons[0] !== "휴식 가능한 화장실·벤치가 코스 곳곳에 분포되어 있어요.";

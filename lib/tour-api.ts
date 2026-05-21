@@ -11,6 +11,10 @@ const BF_VARIANTS = [
   { service: "KorWithService1", suffix: "1" }
 ];
 
+// 무장애 데이터셋 권한이 아직 풀리지 않은 경우의 폴백.
+// 일반 국문 관광정보(KorService2)로 실 스팟은 가져오되, 무장애 25항목은 비어있게 됨.
+const GENERAL_VARIANTS = [{ service: "KorService2", suffix: "2" }];
+
 function useMock(): boolean {
   return process.env.USE_MOCK_TOUR_API === "true" || !process.env.TOUR_API_KEY;
 }
@@ -33,9 +37,10 @@ interface TourApiOk<T> {
 
 async function tryVariants<T>(
   opBase: string,
-  params: Record<string, string>
+  params: Record<string, string>,
+  variants: Array<{ service: string; suffix: string }> = BF_VARIANTS
 ): Promise<{ items: any[]; service: string; op: string } | null> {
-  for (const { service, suffix } of BF_VARIANTS) {
+  for (const { service, suffix } of variants) {
     const op = `${opBase}${suffix}`;
     const url = buildUrl(service, op, params);
     try {
@@ -64,17 +69,154 @@ async function tryVariants<T>(
  * 도시(area) 기반 무장애 관광지 리스트.
  * 무장애 서비스 응답이 비면 일반 관광 데이터에서 fallback.
  */
-export async function listBarrierFreeSpots(city: CityCode, limit = 12): Promise<TourSpot[]> {
+export async function listBarrierFreeSpots(
+  city: CityCode,
+  limit = 12,
+  sigunguCode?: string
+): Promise<TourSpot[]> {
   if (useMock()) return MOCK_SPOTS[city] ?? [];
 
   const { areaCode } = CITY_CONFIG[city];
-  const result = await tryVariants("areaBasedList", {
+  // arrange=P: 인기순. TourAPI 기본은 가나다순이라 시연 코스가 망가짐.
+  const params: Record<string, string> = {
     numOfRows: String(limit),
     pageNo: "1",
-    areaCode
-  });
+    areaCode,
+    arrange: "P"
+  };
+  if (sigunguCode) params.sigunguCode = sigunguCode;
+
+  // 1순위: 무장애 데이터셋
+  let result = await tryVariants("areaBasedList", params, BF_VARIANTS);
+
+  // 2순위: 일반 국문 관광정보 — 무장애 데이터셋 권한 대기 중일 때 그래도 실 스팟은 노출.
+  // (무장애 25항목은 detail 조회 시 비어있게 됨 → 화면은 mock detail 또는 빈 상태로 graceful)
+  if (!result || result.items.length === 0) {
+    result = await tryVariants("areaBasedList", params, GENERAL_VARIANTS);
+  }
+
+  // 3순위: mock
   if (!result || result.items.length === 0) return MOCK_SPOTS[city] ?? [];
   return result.items.map(mapItemToSpot);
+}
+
+// detailIntro2: 콘텐츠 타입별 추가 정보 (운영시간·휴무일 등).
+// 응답이 콘텐츠 타입마다 달라서 공통 형태로 정규화.
+export interface SpotIntro {
+  contentId: string;
+  restdate?: string; // 휴무일 자유 텍스트
+  usetime?: string; // 운영시간 자유 텍스트
+  infocenter?: string; // 안내 전화
+  parking?: string;
+}
+
+export async function getSpotIntro(
+  contentId: string,
+  contentTypeId: string
+): Promise<SpotIntro> {
+  if (useMock()) return { contentId };
+  const result = await tryVariants(
+    "detailIntro",
+    { contentId, contentTypeId },
+    [{ service: "KorService2", suffix: "2" }]
+  );
+  const item = result?.items?.[0];
+  if (!item) return { contentId };
+  return {
+    contentId,
+    // 식당(ct=39)은 restdatefood/opentimefood, 그 외는 restdate/usetime
+    restdate: item.restdate ?? item.restdatefood ?? item.restdateculture ?? item.restdateleports,
+    usetime: item.usetime ?? item.opentimefood ?? item.usetimeculture ?? item.usetimeleports,
+    infocenter: item.infocenter ?? item.infocenterfood ?? item.infocenterculture,
+    parking: item.parking ?? item.parkingfood ?? item.parkingculture
+  };
+}
+
+// detailCommon2: 스팟 공통 정보 (홈페이지·소개글·전화).
+export interface SpotCommon {
+  contentId: string;
+  homepage?: string; // URL만 추출 (HTML 안에 <a href="..."> 형태로 옴)
+  homepageText?: string; // 화면에 보일 짧은 라벨 (도메인)
+  overview?: string; // 소개글 (HTML 태그 제거 후 첫 ~200자)
+  tel?: string;
+}
+
+function extractHomepage(html: string | undefined): { url?: string; label?: string } {
+  if (!html) return {};
+  const m = html.match(/href=["']?([^"'>\s]+)/i);
+  const url = m?.[1];
+  if (!url) return {};
+  try {
+    const domain = new URL(url).hostname.replace(/^www\./, "");
+    return { url, label: domain };
+  } catch {
+    return { url };
+  }
+}
+
+function stripHtml(s: string | undefined, max = 220): string | undefined {
+  if (!s) return undefined;
+  return s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
+}
+
+export async function getSpotCommon(contentId: string): Promise<SpotCommon> {
+  if (useMock()) return { contentId };
+  const result = await tryVariants("detailCommon", { contentId }, [
+    { service: "KorService2", suffix: "2" }
+  ]);
+  const item = result?.items?.[0];
+  if (!item) return { contentId };
+  const hp = extractHomepage(item.homepage);
+  return {
+    contentId,
+    homepage: hp.url,
+    homepageText: hp.label,
+    overview: stripHtml(item.overview),
+    tel: item.tel || undefined
+  };
+}
+
+// detailInfo2: 콘텐츠 타입별 반복정보 (관광지의 입장료·주차요금·화장실 등).
+// 응답이 콘텐츠 타입마다 다르고 식당·문화시설은 보통 비어 있음.
+export interface SpotDetailInfo {
+  name: string; // infoname (예: "입장료", "주차요금")
+  text: string; // infotext (HTML 태그 제거)
+}
+
+export async function getSpotDetailInfo(
+  contentId: string,
+  contentTypeId: string
+): Promise<SpotDetailInfo[]> {
+  if (useMock()) return [];
+  const result = await tryVariants(
+    "detailInfo",
+    { contentId, contentTypeId, numOfRows: "10" },
+    [{ service: "KorService2", suffix: "2" }]
+  );
+  if (!result?.items?.length) return [];
+  return result.items
+    .map((it: any) => ({
+      name: String(it.infoname ?? "").trim(),
+      text: String(it.infotext ?? "")
+        .replace(/<br\s*\/?>/gi, " · ")
+        .replace(/<[^>]+>/g, "")
+        .replace(/\s+/g, " ")
+        .trim()
+    }))
+    .filter((x): x is SpotDetailInfo => !!x.name && !!x.text);
+}
+
+// detailImage2: 콘텐츠 추가 이미지 URL 목록.
+// firstImage(목록 기본 이미지) 외 갤러리. 큰 사진/썸네일 모두 반환.
+export async function getSpotImages(contentId: string): Promise<string[]> {
+  if (useMock()) return [];
+  // KCISA/web 캐시 친화. 5초 timeout.
+  const params: Record<string, string> = { contentId, imageYN: "Y", numOfRows: "5" };
+  const result = await tryVariants("detailImage", params, [{ service: "KorService2", suffix: "2" }]);
+  if (!result?.items?.length) return [];
+  return result.items
+    .map((it: any) => it.originimgurl || it.smallimageurl)
+    .filter((u: any): u is string => typeof u === "string" && u.length > 0);
 }
 
 export async function getBarrierFreeDetail(contentId: string): Promise<BarrierFreeInfo> {
@@ -98,7 +240,7 @@ export async function diagnoseTourApi(): Promise<{
   const attempts: any[] = [];
   if (!hasKey || mock) return { hasKey, mock, attempts };
 
-  for (const { service, suffix } of BF_VARIANTS) {
+  for (const { service, suffix } of [...BF_VARIANTS, ...GENERAL_VARIANTS]) {
     const op = `areaBasedList${suffix}`;
     const url = buildUrl(service, op, { numOfRows: "1", pageNo: "1", areaCode: "1" });
     try {

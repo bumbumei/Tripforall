@@ -5,6 +5,8 @@ export interface MultiGenInput {
   companions: CompanionProfile[];
   course: CourseStop[];
   city: string;
+  themeLabel?: string; // "역사·궁궐", "자연·풍경" 등
+  themeVibe?: string; // narrative 톤 힌트
 }
 
 export function buildMultiGenPrompt(input: MultiGenInput): { system: string; user: string } {
@@ -57,7 +59,11 @@ segments 외에 "narrative" 필드에 1인칭 시간순 한국어 시나리오�
     )
     .join("\n");
 
-  const user = `[도시] ${input.city}
+  const themeBlock = input.themeLabel
+    ? `[테마] ${input.themeLabel}${input.themeVibe ? ` — ${input.themeVibe}` : ""}\n\n`
+    : "";
+
+  const user = `${themeBlock}[도시] ${input.city}
 
 [동행자]
 ${companionDesc}
@@ -68,7 +74,7 @@ ${courseDesc}
 위 코스를 Multi-Generation Bridge 원칙으로 재설계하라.
 - 공통 동선 + 1~2회 분기 + 재합류
 - 1~2회 세대 연결 bonding 미션
-- narrative는 "어머니와 손주와 다녀온 ${input.city} 반나절" 일기처럼 작성.`;
+- narrative는 "${input.themeLabel ? `${input.themeLabel} 테마로 ` : ""}어머니와 손주와 다녀온 ${input.city} 반나절" 일기처럼 작성.${input.themeLabel ? ` 테마의 톤(${input.themeVibe ?? input.themeLabel})이 장면 묘사에 자연스럽게 배어 있어야 한다.` : ""}`;
 
   return { system, user };
 }
