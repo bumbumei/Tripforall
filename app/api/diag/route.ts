@@ -13,6 +13,14 @@ export async function GET() {
       USE_MOCK_TOUR_API: process.env.USE_MOCK_TOUR_API ?? "(unset)",
       TOUR_API_KEY: process.env.TOUR_API_KEY ? "set" : "not set",
       KCISA_API_KEY: process.env.KCISA_API_KEY ? "set" : "not set",
+      ENNOIA_API_KEY: process.env.ENNOIA_API_KEY ? "set" : "not set",
+      ENNOIA_PROJECT: process.env.ENNOIA_PROJECT ?? "(unset)",
+      ENNOIA_PRESET_HASH: process.env.ENNOIA_PRESET_HASH
+        ? `${process.env.ENNOIA_PRESET_HASH.slice(0, 12)}…`
+        : "not set",
+      ENNOIA_USER_ID: process.env.ENNOIA_USER_ID
+        ? `${process.env.ENNOIA_USER_ID.slice(0, 8)}…`
+        : "not set",
       OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY ? "set" : "not set",
       OPENAI_API_KEY: process.env.OPENAI_API_KEY ? "set" : "not set",
       ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY ? "set" : "not set"
