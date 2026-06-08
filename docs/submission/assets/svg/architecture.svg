@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="userGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1976D2"/>
+      <stop offset="100%" stop-color="#0D47A1"/>
+    </linearGradient>
+    <linearGradient id="ennoiaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E65100"/>
+      <stop offset="100%" stop-color="#BF360C"/>
+    </linearGradient>
+    <linearGradient id="apiGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E7D32"/>
+      <stop offset="100%" stop-color="#1B5E20"/>
+    </linearGradient>
+    <linearGradient id="resultGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6A1B9A"/>
+      <stop offset="100%" stop-color="#4A148C"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#555"/>
+    </marker>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="3" result="off"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.18"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- 타이틀 -->
+  <text x="800" y="50" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="32" font-weight="700" fill="#1565C0">함께걸음 시스템 아키텍처</text>
+  <text x="800" y="80" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="18" fill="#666">사용자 입력 → 14종 외부 데이터 + Ennoia 에이전트 3종 병렬 → 결과 (총 ~15초)</text>
+
+  <!-- 1. 사용자 입력 -->
+  <g filter="url(#cardShadow)">
+    <rect x="600" y="120" width="400" height="100" rx="12" fill="url(#userGrad)"/>
+    <text x="800" y="155" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="20" font-weight="700" fill="white">① 사용자 입력</text>
+    <text x="800" y="185" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">동행자 · 시·군·구 · 테마 · 식사 · 날짜·시간</text>
+    <text x="800" y="205" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="13" fill="#BBDEFB">Next.js 14 + React + Tailwind</text>
+  </g>
+  <line x1="800" y1="225" x2="800" y2="260" stroke="#555" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="820" y="245" font-family="monospace" font-size="13" fill="#555">POST /api/plan</text>
+
+  <!-- 2. Next.js API Route -->
+  <rect x="80" y="280" width="1440" height="380" rx="12" fill="#F5F5F5" stroke="#BDBDBD" stroke-width="2"/>
+  <text x="800" y="310" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="22" font-weight="700" fill="#424242">② Next.js API Route (course-builder)</text>
+
+  <!-- 2-A. 외부 데이터 수집 -->
+  <g filter="url(#cardShadow)">
+    <rect x="110" y="340" width="660" height="280" rx="10" fill="url(#apiGrad)"/>
+    <text x="440" y="375" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="18" font-weight="700" fill="white">병렬 외부 데이터 수집</text>
+    <text x="440" y="398" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#C8E6C9">5초 timeout · 24h cache · fallback chain</text>
+
+    <!-- KTO -->
+    <rect x="135" y="420" width="195" height="80" rx="6" fill="#388E3C" stroke="#A5D6A7"/>
+    <text x="232" y="442" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="white">KTO OpenAPI (5종)</text>
+    <text x="232" y="462" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#C8E6C9">국문 · 무장애 · 반려동물</text>
+    <text x="232" y="478" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#C8E6C9">웰니스 · 집중률</text>
+    <text x="232" y="494" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="10" fill="#A5D6A7">★ 핵심: KorWithService2 25항목</text>
+
+    <!-- 행안부 -->
+    <rect x="345" y="420" width="195" height="80" rx="6" fill="#388E3C" stroke="#A5D6A7"/>
+    <text x="442" y="442" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="white">행정안전부 (5종)</text>
+    <text x="442" y="462" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#C8E6C9">모범음식점·일반·휴게·관광</text>
+    <text x="442" y="478" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#C8E6C9">공중화장실 표준데이터</text>
+    <text x="442" y="494" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="10" fill="#A5D6A7">EPSG:5174 → WGS84 변환</text>
+
+    <!-- 기타 -->
+    <rect x="555" y="420" width="195" height="80" rx="6" fill="#388E3C" stroke="#A5D6A7"/>
+    <text x="652" y="442" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="white">기타 (4종)</text>
+    <text x="652" y="462" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#C8E6C9">KCISA · Open-Meteo</text>
+    <text x="652" y="478" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#C8E6C9">국립의료원 · 지하철 엘리베이터</text>
+    <text x="652" y="494" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="10" fill="#A5D6A7">응급실·접근성 자동 매핑</text>
+
+    <text x="440" y="540" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="13" fill="white" font-weight="600">→ 무장애 검증 관광지 · 식당 · 휴무 · 좌표 · 사진</text>
+    <text x="440" y="585" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="22" font-weight="700" fill="#FFEB3B">총 14종</text>
+  </g>
+
+  <!-- 2-B. Ennoia -->
+  <g filter="url(#cardShadow)">
+    <rect x="830" y="340" width="660" height="280" rx="10" fill="url(#ennoiaGrad)"/>
+    <text x="1160" y="375" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="18" font-weight="700" fill="white">Ennoia 에이전트 3종 병렬 추론</text>
+    <text x="1160" y="398" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#FFCCBC">callLlmJson · gpt-4o-mini · ~4초/호출</text>
+
+    <!-- pace -->
+    <rect x="855" y="420" width="200" height="80" rx="6" fill="#D84315" stroke="#FFAB91"/>
+    <text x="955" y="442" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="white">pace</text>
+    <text x="955" y="462" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#FFCCBC">체력 시뮬레이션</text>
+    <text x="955" y="480" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="10" fill="#FFCCBC">30% 미만 → 자동 휴식</text>
+
+    <!-- wellness -->
+    <rect x="1065" y="420" width="200" height="80" rx="6" fill="#D84315" stroke="#FFAB91"/>
+    <text x="1165" y="442" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="white">wellness</text>
+    <text x="1165" y="462" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#FFCCBC">웰니스 점수</text>
+    <text x="1165" y="480" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="10" fill="#FFCCBC">동행자별 적합도</text>
+
+    <!-- multiGen -->
+    <rect x="1275" y="420" width="200" height="80" rx="6" fill="#D84315" stroke="#FFAB91"/>
+    <text x="1375" y="442" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="white">multiGen</text>
+    <text x="1375" y="462" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#FFCCBC">분기 + narrative</text>
+    <text x="1375" y="480" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="10" fill="#FFCCBC">세대 연결 bonding 미션</text>
+
+    <text x="1160" y="540" text-anchor="middle" font-family="monospace" font-size="11" fill="#FFEB3B">POST api.ennoia.so/api/preset/v2/chat/completions</text>
+    <text x="1160" y="560" text-anchor="middle" font-family="monospace" font-size="11" fill="#FFCCBC">headers: project + apiKey + X-ENNOIA-USER-ID</text>
+    <text x="1160" y="585" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="600" fill="white">필수 플랫폼 — KTO MCP preset(gpt-5) 별도 보유</text>
+  </g>
+
+  <!-- 화살표 -->
+  <line x1="800" y1="660" x2="800" y2="700" stroke="#555" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="830" y="685" font-family="'Malgun Gothic', sans-serif" font-size="13" fill="#555">결과 조립 → JSON</text>
+
+  <!-- 3. 결과 페이지 -->
+  <g filter="url(#cardShadow)">
+    <rect x="200" y="720" width="1200" height="140" rx="12" fill="url(#resultGrad)"/>
+    <text x="800" y="755" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="20" font-weight="700" fill="white">③ 결과 페이지</text>
+    <text x="800" y="785" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E1BEE7">동선 카드 · 사진 · 거리 · 무장애 배지 · 혼잡도 🟢🟡🔴 · 인증 🏅 · 웰니스 🌐 · 반려동물 🐾</text>
+    <text x="800" y="810" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E1BEE7">WeatherCard · SkippedSpotsCard · EmergencyCard · NearbyToiletsCard · RecommendedPool (조합 변경)</text>
+    <text x="800" y="845" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="16" font-weight="700" fill="#FFEB3B">총 응답 시간 약 15초 (3 task 병렬)</text>
+  </g>
+</svg>

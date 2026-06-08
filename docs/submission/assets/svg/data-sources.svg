@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="ktoBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF3E0"/>
+      <stop offset="100%" stop-color="#FFE0B2"/>
+    </linearGradient>
+    <linearGradient id="moisBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8F5E9"/>
+      <stop offset="100%" stop-color="#C8E6C9"/>
+    </linearGradient>
+    <linearGradient id="etcBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E3F2FD"/>
+      <stop offset="100%" stop-color="#BBDEFB"/>
+    </linearGradient>
+    <linearGradient id="ennoiaBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FCE4EC"/>
+      <stop offset="100%" stop-color="#F8BBD0"/>
+    </linearGradient>
+    <filter id="srcShadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="2" result="off"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.15"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <text x="800" y="55" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="32" font-weight="700" fill="#1565C0">14종 외부 데이터 + Ennoia 플랫폼</text>
+  <text x="800" y="88" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="16" fill="#666">하나의 입력으로 KTO·행안부·기상·의료·접근성 데이터를 모두 통합</text>
+
+  <!-- ===== Ennoia (최상단 강조) ===== -->
+  <g filter="url(#srcShadow)">
+    <rect x="450" y="120" width="700" height="100" rx="12" fill="url(#ennoiaBg)" stroke="#C2185B" stroke-width="3"/>
+    <text x="800" y="155" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="22" font-weight="700" fill="#880E4F">🤖 Ennoia 플랫폼 (필수 LLM)</text>
+    <text x="800" y="183" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#AD1457">pace · wellness · multiGen 추론 3종 · gpt-4o-mini · 추론전용 preset (~4초/호출)</text>
+    <text x="800" y="205" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#AD1457">+ KTO MCP preset (gpt-5, 63개 도구) 별도 보유 — 시연용</text>
+  </g>
+
+  <!-- ===== 카테고리 1: KTO OpenAPI 5종 ===== -->
+  <g filter="url(#srcShadow)">
+    <rect x="50" y="260" width="500" height="600" rx="14" fill="url(#ktoBg)" stroke="#E65100" stroke-width="2"/>
+    <text x="300" y="295" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="20" font-weight="700" fill="#E65100">🏛 한국관광공사 OpenAPI</text>
+    <text x="300" y="320" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#BF360C">5종 — 본 서비스 핵심</text>
+
+    <!-- 1 -->
+    <rect x="75" y="350" width="450" height="85" rx="8" fill="white"/>
+    <text x="95" y="380" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#E65100">★ 무장애 여행 정보 (KorWithService2)</text>
+    <text x="95" y="402" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#5D4037">휠체어·엘리베이터·화장실·경사로·인력 25항목</text>
+    <text x="95" y="420" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#5D4037">→ 본 서비스의 코어 데이터</text>
+
+    <!-- 2 -->
+    <rect x="75" y="450" width="450" height="65" rx="8" fill="white"/>
+    <text x="95" y="478" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#E65100">국문 관광정보 (KorService2)</text>
+    <text x="95" y="500" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#5D4037">areaBased / detailCommon / Intro / Info / Image</text>
+
+    <!-- 3 -->
+    <rect x="75" y="530" width="450" height="65" rx="8" fill="white"/>
+    <text x="95" y="558" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#E65100">반려동물 동반여행 (KorPetTourService2)</text>
+    <text x="95" y="580" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#5D4037">반려동물 테마 전용 추천 풀</text>
+
+    <!-- 4 -->
+    <rect x="75" y="610" width="450" height="65" rx="8" fill="white"/>
+    <text x="95" y="638" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#E65100">웰니스 관광정보 (WellnessTursmService)</text>
+    <text x="95" y="660" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#5D4037">웰니스 테마 전용 풀 (langDivCd=ko)</text>
+
+    <!-- 5 -->
+    <rect x="75" y="690" width="450" height="65" rx="8" fill="white"/>
+    <text x="95" y="718" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#E65100">관광지 집중률 (TatsCnctrRateService)</text>
+    <text x="95" y="740" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#5D4037">혼잡도 🟢 보통 🟡 혼잡 🔴</text>
+
+    <text x="300" y="800" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="13" fill="#BF360C" font-style="italic">→ 폼 ⑤ 활용 API 5종 모두 체크</text>
+  </g>
+
+  <!-- ===== 카테고리 2: 행정안전부 5종 ===== -->
+  <g filter="url(#srcShadow)">
+    <rect x="570" y="260" width="480" height="600" rx="14" fill="url(#moisBg)" stroke="#1B5E20" stroke-width="2"/>
+    <text x="810" y="295" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="20" font-weight="700" fill="#1B5E20">🏢 행정안전부 표준데이터</text>
+    <text x="810" y="320" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#2E7D32">5종 — 식당·화장실 보강</text>
+
+    <!-- 1 -->
+    <rect x="595" y="350" width="430" height="65" rx="8" fill="white"/>
+    <text x="615" y="378" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#1B5E20">모범음식점 (excellent_restaurant_info)</text>
+    <text x="615" y="400" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#1B5E20">🏅 인증 배지</text>
+
+    <!-- 2 -->
+    <rect x="595" y="430" width="430" height="65" rx="8" fill="white"/>
+    <text x="615" y="458" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#1B5E20">일반음식점 (general_restaurants)</text>
+    <text x="615" y="480" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#1B5E20">KTO 부족분 보강 (TourAPI fallback)</text>
+
+    <!-- 3 -->
+    <rect x="595" y="510" width="430" height="65" rx="8" fill="white"/>
+    <text x="615" y="538" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#1B5E20">휴게음식점 (rest_cafes)</text>
+    <text x="615" y="560" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#1B5E20">카페 풀</text>
+
+    <!-- 4 -->
+    <rect x="595" y="590" width="430" height="65" rx="8" fill="white"/>
+    <text x="615" y="618" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#1B5E20">관광식당 (tourist_restaurants)</text>
+    <text x="615" y="640" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#1B5E20">🍽 관광식당 인증</text>
+
+    <!-- 5 -->
+    <rect x="595" y="670" width="430" height="65" rx="8" fill="white"/>
+    <text x="615" y="698" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#1B5E20">공중화장실 표준데이터셋</text>
+    <text x="615" y="720" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#1B5E20">장애인 화장실 반경 500m (preloaded 1.7MB)</text>
+
+    <text x="810" y="800" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="13" fill="#1B5E20" font-style="italic">EPSG:5174 → WGS84 좌표 변환 자체 구현</text>
+  </g>
+
+  <!-- ===== 카테고리 3: 기타 4종 ===== -->
+  <g filter="url(#srcShadow)">
+    <rect x="1070" y="260" width="480" height="600" rx="14" fill="url(#etcBg)" stroke="#0D47A1" stroke-width="2"/>
+    <text x="1310" y="295" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="20" font-weight="700" fill="#0D47A1">📡 기타 외부 데이터</text>
+    <text x="1310" y="320" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#1565C0">4종 — 날씨·안전·접근성</text>
+
+    <!-- 1 -->
+    <rect x="1095" y="350" width="430" height="80" rx="8" fill="white"/>
+    <text x="1115" y="380" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#0D47A1">KCISA 시티투어 맛집</text>
+    <text x="1115" y="402" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#0D47A1">광역 도시 맛집 fallback</text>
+    <text x="1115" y="420" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#0D47A1">AbortController 5초 timeout 적용</text>
+
+    <!-- 2 -->
+    <rect x="1095" y="445" width="430" height="80" rx="8" fill="white"/>
+    <text x="1115" y="475" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#0D47A1">Open-Meteo 기상 API</text>
+    <text x="1115" y="497" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#0D47A1">실시간 날씨 (WMO code)</text>
+    <text x="1115" y="515" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#0D47A1">비/눈 → preferIndoor 가산점</text>
+
+    <!-- 3 -->
+    <rect x="1095" y="540" width="430" height="80" rx="8" fill="white"/>
+    <text x="1115" y="570" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#0D47A1">🏥 국립중앙의료원 응급의료기관</text>
+    <text x="1115" y="592" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#0D47A1">코스 중심 좌표 기준 응급실 2곳</text>
+    <text x="1115" y="610" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#0D47A1">자동 매핑 + 거리·연락처 표시</text>
+
+    <!-- 4 -->
+    <rect x="1095" y="635" width="430" height="80" rx="8" fill="white"/>
+    <text x="1115" y="665" font-family="'Malgun Gothic', sans-serif" font-size="15" font-weight="700" fill="#0D47A1">🚇 서울 지하철 엘리베이터</text>
+    <text x="1115" y="687" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#0D47A1">서울 열린데이터광장 (preloaded 138KB)</text>
+    <text x="1115" y="705" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#0D47A1">역 접근성 검증</text>
+
+    <text x="1310" y="780" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="13" fill="#0D47A1" font-style="italic">3종 실시간 API + 2종 preloaded JSON</text>
+    <text x="1310" y="800" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="11" fill="#1565C0">병렬 호출 + 24h cache + 5s timeout</text>
+  </g>
+</svg>

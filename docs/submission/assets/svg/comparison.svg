@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="oldGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FAFAFA"/>
+      <stop offset="100%" stop-color="#E0E0E0"/>
+    </linearGradient>
+    <linearGradient id="ourGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1976D2"/>
+      <stop offset="100%" stop-color="#0D47A1"/>
+    </linearGradient>
+    <filter id="cmpShadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="3" result="off"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.18"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <text x="800" y="55" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="32" font-weight="700" fill="#1565C0">기존 여행 앱 vs 함께걸음</text>
+  <text x="800" y="88" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="16" fill="#666">"이동약자가 포함된 가족 여행"에서 가장 큰 6가지 차이</text>
+
+  <!-- 컬럼 헤더 -->
+  <g filter="url(#cmpShadow)">
+    <rect x="450" y="130" width="300" height="60" rx="10" fill="url(#oldGrad)" stroke="#9E9E9E"/>
+    <text x="600" y="170" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="22" font-weight="700" fill="#616161">기존 여행 앱</text>
+  </g>
+
+  <g filter="url(#cmpShadow)">
+    <rect x="850" y="130" width="300" height="60" rx="10" fill="url(#ourGrad)"/>
+    <text x="1000" y="170" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="22" font-weight="700" fill="white">함께걸음 ⭐</text>
+  </g>
+
+  <!-- 항목 1: 무장애 정보 -->
+  <text x="220" y="245" text-anchor="end" font-family="'Malgun Gothic', sans-serif" font-size="18" font-weight="700" fill="#424242">무장애 정보</text>
+  <g filter="url(#cmpShadow)">
+    <rect x="290" y="220" width="460" height="60" rx="8" fill="url(#oldGrad)" stroke="#BDBDBD"/>
+    <text x="520" y="245" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#757575">없거나 별도 페이지에 흩어짐</text>
+    <text x="520" y="265" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#9E9E9E">사용자가 직접 카페·기관 찾아다님</text>
+  </g>
+  <g filter="url(#cmpShadow)">
+    <rect x="850" y="220" width="460" height="60" rx="8" fill="white" stroke="#1976D2" stroke-width="2"/>
+    <text x="1080" y="245" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="#0D47A1">KTO 25항목 + 행안부 화장실 통합 ✓</text>
+    <text x="1080" y="265" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#1565C0">휠체어·엘리베이터·경사로 자동 검증</text>
+  </g>
+
+  <!-- 항목 2: 동행자 페이스 -->
+  <text x="220" y="335" text-anchor="end" font-family="'Malgun Gothic', sans-serif" font-size="18" font-weight="700" fill="#424242">동행자 페이스</text>
+  <g filter="url(#cmpShadow)">
+    <rect x="290" y="310" width="460" height="60" rx="8" fill="url(#oldGrad)" stroke="#BDBDBD"/>
+    <text x="520" y="335" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#757575">"1인 기준" 일정만 제공</text>
+    <text x="520" y="355" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#9E9E9E">동행자 체력 차이 미고려</text>
+  </g>
+  <g filter="url(#cmpShadow)">
+    <rect x="850" y="310" width="460" height="60" rx="8" fill="white" stroke="#1976D2" stroke-width="2"/>
+    <text x="1080" y="335" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="#0D47A1">가장 느린 동행자 기준 + 자동 휴식 ✓</text>
+    <text x="1080" y="355" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#1565C0">체력 시뮬레이션 (30% 미만 → 휴식)</text>
+  </g>
+
+  <!-- 항목 3: 세대간 차이 -->
+  <text x="220" y="425" text-anchor="end" font-family="'Malgun Gothic', sans-serif" font-size="18" font-weight="700" fill="#424242">세대간 관심사</text>
+  <g filter="url(#cmpShadow)">
+    <rect x="290" y="400" width="460" height="60" rx="8" fill="url(#oldGrad)" stroke="#BDBDBD"/>
+    <text x="520" y="425" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#757575">미고려 — 모든 가족이 같은 활동</text>
+    <text x="520" y="445" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#9E9E9E">젊은 가족이 지치거나 조부모가 따라가지 못함</text>
+  </g>
+  <g filter="url(#cmpShadow)">
+    <rect x="850" y="400" width="460" height="60" rx="8" fill="white" stroke="#1976D2" stroke-width="2"/>
+    <text x="1080" y="425" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="#0D47A1">공통 + 분기 + 재합류 + bonding 미션 ✓</text>
+    <text x="1080" y="445" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#1565C0">"손주가 할머니께 학창시절 이야기 듣기" 같은 연결</text>
+  </g>
+
+  <!-- 항목 4: 휴무 안내 -->
+  <text x="220" y="515" text-anchor="end" font-family="'Malgun Gothic', sans-serif" font-size="18" font-weight="700" fill="#424242">휴무·날씨 회피</text>
+  <g filter="url(#cmpShadow)">
+    <rect x="290" y="490" width="460" height="60" rx="8" fill="url(#oldGrad)" stroke="#BDBDBD"/>
+    <text x="520" y="515" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#757575">클릭한 후에야 "오늘 휴무" 발견</text>
+    <text x="520" y="535" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#9E9E9E">현장 도착 후 헛걸음 위험</text>
+  </g>
+  <g filter="url(#cmpShadow)">
+    <rect x="850" y="490" width="460" height="60" rx="8" fill="white" stroke="#1976D2" stroke-width="2"/>
+    <text x="1080" y="515" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="#0D47A1">선제 회피 + 시간 변경 안내 ✓</text>
+    <text x="1080" y="535" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#1565C0">"○○는 휴무 — 11시로 옮기시면 가능"</text>
+  </g>
+
+  <!-- 항목 5: 응급 대비 -->
+  <text x="220" y="605" text-anchor="end" font-family="'Malgun Gothic', sans-serif" font-size="18" font-weight="700" fill="#424242">응급 대비</text>
+  <g filter="url(#cmpShadow)">
+    <rect x="290" y="580" width="460" height="60" rx="8" fill="url(#oldGrad)" stroke="#BDBDBD"/>
+    <text x="520" y="605" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#757575">사용자가 별도 검색 필요</text>
+    <text x="520" y="625" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#9E9E9E">응급실·화장실 위치 모름</text>
+  </g>
+  <g filter="url(#cmpShadow)">
+    <rect x="850" y="580" width="460" height="60" rx="8" fill="white" stroke="#1976D2" stroke-width="2"/>
+    <text x="1080" y="605" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="#0D47A1">응급실 2곳 + 장애인 화장실 자동 매핑 ✓</text>
+    <text x="1080" y="625" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#1565C0">코스 중심 좌표 + 반경 500m 자동 부착</text>
+  </g>
+
+  <!-- 항목 6: LLM 활용 -->
+  <text x="220" y="695" text-anchor="end" font-family="'Malgun Gothic', sans-serif" font-size="18" font-weight="700" fill="#424242">LLM 활용</text>
+  <g filter="url(#cmpShadow)">
+    <rect x="290" y="670" width="460" height="60" rx="8" fill="url(#oldGrad)" stroke="#BDBDBD"/>
+    <text x="520" y="695" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#757575">단순 챗봇 (자유 텍스트만)</text>
+    <text x="520" y="715" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#9E9E9E">구조화된 결과 없음</text>
+  </g>
+  <g filter="url(#cmpShadow)">
+    <rect x="850" y="670" width="460" height="60" rx="8" fill="white" stroke="#1976D2" stroke-width="2"/>
+    <text x="1080" y="695" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" font-weight="700" fill="#0D47A1">Ennoia 에이전트 3종 병렬 + JSON 강제 ✓</text>
+    <text x="1080" y="715" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="12" fill="#1565C0">pace · wellness · multiGen — 추론 결과 즉시 UI 렌더링</text>
+  </g>
+
+  <!-- 결론 강조 -->
+  <g filter="url(#cmpShadow)">
+    <rect x="200" y="770" width="1200" height="90" rx="14" fill="url(#ourGrad)"/>
+    <text x="800" y="810" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="22" font-weight="700" fill="white">함께걸음은 "이동약자가 포함된 가족 여행"이라는 미해결 시장에 정확히 맞춘 첫 도구</text>
+    <text x="800" y="840" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#BBDEFB">D.U.A.L.I.S.M. 트렌드의 다양성·통합·포용·다세대 가치를 동시 충족</text>
+  </g>
+</svg>

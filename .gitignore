@@ -14,3 +14,24 @@ ref/
 
 # Claude Code 메타데이터
 .claude/
+
+# Office 임시 락 파일
+~$*.pptx
+~$*.docx
+~$*.xlsx
+
+# 제출 자료 빌드 산출물 — 재생성 가능 + 저작권 분리
+# (인라인 주석 금지 — 같은 줄 주석은 pattern으로 해석됨)
+# 한국관광공사 양식 원본 (저작권 분리)
+scripts/template.pptx
+# 양식 분석 임시 로그
+scripts/.template-structure.txt
+# Marp 변환용 임시 마크다운
+docs/submission/.tmp-marp.md
+docs/submission/.tmp-svg-md/
+# 이전 PDF 검증용 PNG (사용 안 함)
+docs/submission/preview/
+# TTS mp3 (영상에 합쳐짐, 재생성 가능)
+docs/submission/assets/audio/
+# ffmpeg 임시 fragment
+docs/submission/assets/video-tmp/

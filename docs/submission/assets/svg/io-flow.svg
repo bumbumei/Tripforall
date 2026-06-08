@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="inputBox" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1976D2"/>
+      <stop offset="100%" stop-color="#0D47A1"/>
+    </linearGradient>
+    <linearGradient id="outputBox" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#388E3C"/>
+      <stop offset="100%" stop-color="#1B5E20"/>
+    </linearGradient>
+    <linearGradient id="brainGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E65100"/>
+      <stop offset="100%" stop-color="#BF360C"/>
+    </linearGradient>
+    <filter id="ioShadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="3" result="off"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.2"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <text x="800" y="55" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="32" font-weight="700" fill="#1565C0">서비스 입력 · 출력</text>
+  <text x="800" y="88" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="16" fill="#666">한 번의 입력 → "가장 느린 동행자"에게 맞춘 완전한 여행 코스</text>
+
+  <!-- ===== INPUT ===== -->
+  <g filter="url(#ioShadow)">
+    <rect x="50" y="140" width="450" height="660" rx="14" fill="url(#inputBox)"/>
+    <text x="275" y="185" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="26" font-weight="700" fill="white">📥 입력값</text>
+    <line x1="80" y1="205" x2="470" y2="205" stroke="#BBDEFB" stroke-width="1"/>
+
+    <text x="80" y="250" font-family="'Malgun Gothic', sans-serif" font-size="16" font-weight="700" fill="#FFEB3B">📍 위치</text>
+    <text x="100" y="278" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">시·도 (서울/부산/제주/경기)</text>
+    <text x="100" y="300" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">시·군·구 (총 74개)</text>
+
+    <text x="80" y="345" font-family="'Malgun Gothic', sans-serif" font-size="16" font-weight="700" fill="#FFEB3B">👨‍👩‍👧 동행자 (1~6명)</text>
+    <text x="100" y="373" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">닉네임 · 나이 · 체력 % · 메모</text>
+    <text x="100" y="395" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">이동수단 8종 (휠체어 수·전,</text>
+    <text x="100" y="415" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">유아차, 보행보조기, 임산부,</text>
+    <text x="100" y="435" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">저체력, 아동, 일반)</text>
+
+    <text x="80" y="480" font-family="'Malgun Gothic', sans-serif" font-size="16" font-weight="700" fill="#FFEB3B">🎨 테마 (10종)</text>
+    <text x="100" y="508" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">역사 · 자연 · 음식 · 예술</text>
+    <text x="100" y="528" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">가족 · 축제 · 현지인처럼</text>
+    <text x="100" y="548" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">실내 · 웰니스 · 반려동물</text>
+
+    <text x="80" y="593" font-family="'Malgun Gothic', sans-serif" font-size="16" font-weight="700" fill="#FFEB3B">🍽 식사 (6종)</text>
+    <text x="100" y="621" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">한식·중식·일식·양식·카페·무관</text>
+
+    <text x="80" y="666" font-family="'Malgun Gothic', sans-serif" font-size="16" font-weight="700" fill="#FFEB3B">📅 일정</text>
+    <text x="100" y="694" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E3F2FD">여행 날짜 · 출발 시간 · 2~10시간</text>
+
+    <text x="275" y="760" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#90CAF9" font-style="italic">~ 1분 입력</text>
+  </g>
+
+  <!-- ===== PROCESS (가운데) ===== -->
+  <g filter="url(#ioShadow)">
+    <circle cx="800" cy="470" r="170" fill="url(#brainGrad)"/>
+    <text x="800" y="430" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="20" font-weight="700" fill="white">🤖 Ennoia 에이전트</text>
+    <text x="800" y="458" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#FFCCBC">+ 14종 외부 API</text>
+    <line x1="700" y1="475" x2="900" y2="475" stroke="#FFAB91" stroke-width="1"/>
+    <text x="800" y="500" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#FFEB3B">"가장 느린 동행자"</text>
+    <text x="800" y="520" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="white">기준 안전 동선 + 분기</text>
+    <text x="800" y="555" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="22" font-weight="700" fill="#FFEB3B">~ 15초</text>
+  </g>
+
+  <!-- 화살표 (입력 → 처리) -->
+  <path d="M 510 470 L 620 470" stroke="#555" stroke-width="4" marker-end="url(#arrow)" fill="none"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#555"/>
+    </marker>
+  </defs>
+
+  <!-- 화살표 (처리 → 출력) -->
+  <path d="M 980 470 L 1090 470" stroke="#555" stroke-width="4" marker-end="url(#arrow)" fill="none"/>
+
+  <!-- ===== OUTPUT ===== -->
+  <g filter="url(#ioShadow)">
+    <rect x="1100" y="140" width="450" height="660" rx="14" fill="url(#outputBox)"/>
+    <text x="1325" y="185" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="26" font-weight="700" fill="white">📤 출력값</text>
+    <line x1="1130" y1="205" x2="1520" y2="205" stroke="#C8E6C9" stroke-width="1"/>
+
+    <text x="1130" y="250" font-family="'Malgun Gothic', sans-serif" font-size="16" font-weight="700" fill="#FFEB3B">🗺 안전 동선</text>
+    <text x="1150" y="278" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E8F5E9">4~6 stops + 식사 (인접 거리 km)</text>
+    <text x="1150" y="300" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E8F5E9">무장애 호환 검증된 코스</text>
+
+    <text x="1130" y="345" font-family="'Malgun Gothic', sans-serif" font-size="16" font-weight="700" fill="#FFEB3B">🏷 장소 배지</text>
+    <text x="1150" y="373" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E8F5E9">휠체어·엘리베이터·화장실·경사로</text>
+    <text x="1150" y="395" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E8F5E9">혼잡도 🟢🟡🔴 · 인증 🏅</text>
+    <text x="1150" y="417" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E8F5E9">웰니스 🌐 · 반려동물 🐾</text>
+
+    <text x="1130" y="462" font-family="'Malgun Gothic', sans-serif" font-size="16" font-weight="700" fill="#FFEB3B">⚠️ 선제 위험 회피</text>
+    <text x="1150" y="490" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E8F5E9">날씨 + 휴무 + 운영시간 자동 회피</text>
+    <text x="1150" y="512" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E8F5E9">"○○는 휴무 — 11시로 옮기시면…"</text>
+
+    <text x="1130" y="557" font-family="'Malgun Gothic', sans-serif" font-size="16" font-weight="700" fill="#FFEB3B">🏥 응급 대비</text>
+    <text x="1150" y="585" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E8F5E9">응급실 2곳 + 장애인 화장실 500m</text>
+
+    <text x="1130" y="630" font-family="'Malgun Gothic', sans-serif" font-size="16" font-weight="700" fill="#FFEB3B">📖 3세대 narrative</text>
+    <text x="1150" y="658" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E8F5E9">"미리 다녀온 일기" 1인칭 6~10단락</text>
+    <text x="1150" y="680" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E8F5E9">세대 연결 bonding 미션</text>
+    <text x="1150" y="702" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#E8F5E9">"손주가 할머니께 학창시절 듣기"</text>
+
+    <text x="1325" y="760" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="14" fill="#A5D6A7" font-style="italic">바로 출발 가능한 일정표</text>
+  </g>
+</svg>
