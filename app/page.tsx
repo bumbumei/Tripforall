@@ -34,7 +34,7 @@ export default function Home() {
       <p className="mt-16 text-xs leading-relaxed text-ink/50">
         Data: 한국관광공사 TourAPI 4.0 (무장애 여행 정보·국문 관광정보·관광 빅데이터)
         <br />
-        AI: Anthropic Claude · 2026 관광 트렌드 D.U.A.L.I.S.M. 반영
+        AI: Ennoia 플랫폼 · 2026 관광 트렌드 D.U.A.L.I.S.M. 반영
       </p>
     </main>
   );

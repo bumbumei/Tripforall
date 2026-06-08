@@ -160,7 +160,7 @@ export default function ResultPage() {
       <footer className="mt-12 rounded-2xl bg-warm-50 px-6 py-5 text-xs leading-relaxed text-ink/60">
         Data: 한국관광공사 TourAPI 4.0 (areaBasedList2 · detailWithTour2) · 무장애 25항목
         <br />
-        AI: Anthropic Claude · 응답은 추정치를 포함하며 현장 상황은 다를 수 있습니다.
+        AI: Ennoia 플랫폼 · 응답은 추정치를 포함하며 현장 상황은 다를 수 있습니다.
       </footer>
     </main>
   );
